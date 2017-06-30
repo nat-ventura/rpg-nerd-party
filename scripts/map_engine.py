@@ -6,8 +6,6 @@
 import pygame
 from scripts.textures import *
 
-
-
 class Map(object):
     def __init__(self):
         pass
@@ -15,7 +13,7 @@ class Map(object):
     def add_tile(self, tile, pos, add):
         add.blit(tile, pos[0] * tile.size, pos[1] * tile.size)
 
-    def load_map(self, file, tile):
+    def load_map(self, file, tiles):
         map_file = open(file, 'r')
         map_data = map_file.read()
 
