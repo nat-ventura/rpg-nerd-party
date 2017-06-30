@@ -2,62 +2,34 @@
 # nat
 # first rpg
 
-import pygame
-import sys
-import time
+import pygame, sys, time
 from scripts.textures import *
 from scripts.globals import *
 from scripts.map_engine import *
 
-
-color = pygame.Color
-
 pygame.init()
 
-current_sec = 0
-current_frame = 0
-fps = 0
-
-tiles = Tiles()
-world_map = Map()
-
-
-terrain = world_map.load_map("maps/map.map")
-
-
-
-fps_font = pygame.font.SysFont("fontname", 20)
-
-def create_window():
-    # don't forget to make these not global and make a main function
-    global window, window_height, window_width, window_title
-    window_width, window_height = 800, 600
-    window_title = "RPG"
-    pygame.display.set_caption(window_title)
+def create_window(window_width, window_height):
+    pygame.display.set_caption("RPG")
     window = pygame.display.set_mode((window_width, window_height), pygame.HWSURFACE|pygame.DOUBLEBUF)
+    return window
 
-def count_fps():
-    #another useless global
-    global current_sec, current_frame, fps, delta_time
-
+def count_fps(current_sec, current_frame, fps, delta_time):
     if current_sec == time.strftime("%s"):
         current_frame += 1
     else:
         fps = current_frame
         current_frame = 0
         current_sec = time.strftime("%s")
+    return (current_sec, current_frame)
 
-def display_fps():
-    fps_overlay = fps_font.render(str(fps), True, color("goldenrod"))
+def display_fps(fps):
+    fps_overlay = fps_font.render(fps, True, color("goldenrod"))
     window.blit(fps_overlay, (0, 0))
-
-#put this in a cleaner place
-create_window()
 
 running = True
 
 #RENDER GRAPHICS
-
 while running:
     
     for event in pygame.event.get():
@@ -99,7 +71,6 @@ while running:
 
     window.blit(terrain, (Globals.camera_x, Globals.camera_y))
 
-    
     display_fps()
 
     pygame.display.update()
@@ -108,3 +79,19 @@ while running:
 
 pygame.quit()
 sys.exit
+
+def main():
+    color = pygame.Color
+    current_sec = 0
+    current_frame = 0
+    fps = 0
+    tiles = Tiles()
+    world_map = Map()
+    terrain = world_map.load_map("maps/map.map", tiles)
+    fps_font = pygame.font.SysFont("fontname", 20)
+
+    window = create_window(800, 600)
+    current_sec, current_frame = count_fps(current_sec, current_frame, fps, delta_time)
+    fps_display = display_fps(fps)
+
+main()
