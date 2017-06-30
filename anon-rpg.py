@@ -45,15 +45,9 @@ def main():
     window_width, window_height = 800, 600
     camera_x, camera_y = 0, 0
     window = create_window(window_width, window_height)
-
-    sky = create_sky(window_width, window_height, tiles, window)
-    # terrain!!!! = ?! "source" -- a source surface
-    # terrain = create_terrain()
-
-    current_sec, current_frame = count_fps(current_sec, current_frame, fps)
-    fps_display = display_fps(str(fps), fps_font, color, window)
-    current_sec, current_frame = count_fps(current_sec, current_frame, fps)
     
+    # terrain!!!! = ?! "source" -- a source surface
+
     #RENDER GRAPHICS
     running = True
     while running:
@@ -71,8 +65,14 @@ def main():
                     camera_x -= 5
             elif event.type == pygame.KEYUP:
                 camera_move = 0
-                
+        
+        current_sec, current_frame = count_fps(current_sec, current_frame, fps)
+        fps_display = display_fps(str(fps), fps_font, color, window)
+
+        sky = create_sky(window_width, window_height, tiles, window)
+
         pygame.display.update()
+        # terrain = create_terrain()
 
     pygame.quit()
     sys.exit

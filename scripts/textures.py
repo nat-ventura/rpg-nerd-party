@@ -4,6 +4,7 @@
 
 import pygame
 
+pygame.init()
 
 class Tiles(object):
     def __init__(self):
@@ -20,8 +21,3 @@ class Tiles(object):
         surface = pygame.Surface((size, size), pygame.HWSURFACE|pygame.SRCALPHA)
         surface.blit(bitmap, (0, 0))
         return surface
-
-def main():
-    pygame.init()
-
-main()
