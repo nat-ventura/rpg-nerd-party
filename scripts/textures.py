@@ -8,14 +8,14 @@ pygame.init()
 
 class Tiles(object):
     def __init__(self):
-    self.size = 32
-    self.grass = load_texture("graphics/grass.png", size)
-    self.stone = load_texture("graphics/stone.png", size)
-    self.water = load_texture("graphics/water.png", size)
+        self.size = 32
+        self.grass = self.load_texture("graphics/grass.png", self.size)
+        self.stone = self.load_texture("graphics/stone.png", self.size)
+        self.water = self.load_texture("graphics/water.png", self.size)
 
-    def load_texture(self, file):
+    def load_texture(self, file, size):
         bitmap = pygame.image.load(file)
         bitmap = pygame.transform.scale(bitmap, (size, size))
-        surface = pygame.surface((size, size), pygame.HWSURFACE|pygame.SRCALPHA)
+        surface = pygame.Surface((size, size), pygame.HWSURFACE|pygame.SRCALPHA)
         surface.blit(bitmap, (0, 0))
         return surface

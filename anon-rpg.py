@@ -20,6 +20,7 @@ tile_size = 32
 fps_font = pygame.font.SysFont("fontname", 20)
 
 def create_window():
+    # don't forget to make these not global and make a main function
     global window, window_height, window_width, window_title
     window_width, window_height = 800, 600
     window_title = "RPG"
@@ -27,6 +28,7 @@ def create_window():
     window = pygame.display.set_mode((window_width, window_height), pygame.HWSURFACE|pygame.DOUBLEBUF)
 
 def count_fps():
+    #another useless global
     global current_sec, current_frame, fps, delta_time
 
     if current_sec == time.strftime("%s"):
@@ -40,6 +42,7 @@ def display_fps():
     fps_overlay = fps_font.render(str(fps), True, color("goldenrod"))
     window.blit(fps_overlay, (0, 0))
 
+#put this in a cleaner place
 create_window()
 
 running = True
@@ -53,13 +56,15 @@ while running:
     count_fps()
 
     #RENDER GRAPHICS
-    window.fill(color("red"))
+    window.fill(color("black"))
     display_fps()
+
+    tiles = Tiles()
 
     # render simple terrain grid
     for x in range(0, 640, tile_size):
         for y in range(0, 480, tile_size):
-            window.blit(Tiles.grass, (x, y))
+            window.blit(tiles.grass, (x, y))
 
     pygame.display.update()
 
