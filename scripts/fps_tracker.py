@@ -2,7 +2,7 @@
 # nat
 # fps tracker class
 
-import pygame
+import pygame, time
 pygame.init()
 
 class FPS_Tracker(object):
@@ -11,15 +11,14 @@ class FPS_Tracker(object):
         self.frame = frame
         self.font = pygame.font.SysFont("fontname", 20)
 
-    def count_fps(self):
+    def count(self):
         if self.sec == time.strftime("%s"):
             self.frame += 1
         else:
             self.fps = self.frame
             self.frame = 0
             self.sec = time.strftime("%s")
-        return (self.sec, self.frame)
 
-    def display_fps(self, window):
+    def display(self, window):
         self.overlay = self.font.render(str(self.fps), True, pygame.Color("goldenrod"))
         window.blit(self.overlay, (0, 0))

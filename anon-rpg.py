@@ -5,24 +5,25 @@
 import pygame, sys, time
 from scripts.textures import *
 from scripts.map_engine import *
+from scripts.fps_tracker import *
 
 def create_window(window_width, window_height):
     pygame.display.set_caption("RPG")
     window = pygame.display.set_mode((window_width, window_height), pygame.HWSURFACE|pygame.DOUBLEBUF)
     return window
 
-def count_fps(current_sec, current_frame, fps):
-    if current_sec == time.strftime("%s"):
-        current_frame += 1
-    else:
-        fps = current_frame
-        current_frame = 0
-        current_sec = time.strftime("%s")
-    return (current_sec, current_frame)
+# def count_fps(current_sec, current_frame, fps):
+#     if current_sec == time.strftime("%s"):
+#         current_frame += 1
+#     else:
+#         fps = current_frame
+#         current_frame = 0
+#         current_sec = time.strftime("%s")
+#     return (current_sec, current_frame)
 
-def display_fps(fps, fps_font, color, window):
-    fps_overlay = fps_font.render(fps, True, color("goldenrod"))
-    window.blit(fps_overlay, (0, 0))
+# def display_fps(fps, fps_font, color, window):
+#     fps_overlay = fps_font.render(fps, True, color("goldenrod"))
+#     window.blit(fps_overlay, (0, 0))
 
 def create_sky(window_width, window_height, sky, window):
     for x in range(0, window_width, sky.size):
@@ -35,11 +36,8 @@ def create_sky(window_width, window_height, sky, window):
 def main():
     pygame.init()
     color = pygame.Color
-    current_sec = 0
-    current_frame = 0
-    fps = 0
+    fps = FPS_Tracker()
     sky = Texture("sky")
-    print sky
     # world_map = Map()
     # terrain = world_map.load_map("maps/map.map", tiles)
     window_width, window_height = 800, 600
@@ -68,12 +66,13 @@ def main():
             elif event.type == pygame.KEYUP:
                 camera_move = 0
         
-        current_sec, current_frame = count_fps(current_sec, current_frame, fps)
-        fps_display = display_fps(str(fps), fps_font, color, window)
-        new_sky = create_sky(window_width, window_height, sky, window, camera_x, camera_y)
+        
+        new_sky = create_sky(window_width, window_height, sky, window)
 
-        pygame.display.flip()
-        # terrain = create_terrain()
+        new_count = fps.count()
+        new_display = fps.display(window)
+
+        pygame.display.update()
 
     pygame.quit()
     sys.exit
