@@ -7,6 +7,8 @@ import sys
 import time
 from scripts.textures import *
 from scripts.globals import *
+from scripts.map_engine import *
+
 
 color = pygame.Color
 
@@ -15,6 +17,14 @@ pygame.init()
 current_sec = 0
 current_frame = 0
 fps = 0
+
+tiles = Tiles()
+world_map = Map()
+
+
+terrain = world_map.load_map("maps/map.map")
+
+
 
 fps_font = pygame.font.SysFont("fontname", 20)
 
@@ -36,8 +46,6 @@ def count_fps():
         fps = current_frame
         current_frame = 0
         current_sec = time.strftime("%s")
-        if fps > 0:
-            delta_time = 1 / fps
 
 def display_fps():
     fps_overlay = fps_font.render(str(fps), True, color("goldenrod"))
@@ -49,7 +57,6 @@ create_window()
 running = True
 
 #RENDER GRAPHICS
-tiles = Tiles()
 
 while running:
     
@@ -83,16 +90,14 @@ while running:
     elif Globals.camera_move == 4:
         Globals.camera_x -= 5
 
+    # sky
+    for x in range(0, 800, tiles.size):
+        for y in range(0, 600, tiles.size):
+            window.blit(tiles.sky, (x, y))
 
-    
-    
+    #terrain
 
-
-    # render simple terrain grid
-    window.blit(tiles.sky, (0, 0))
-    for x in range(0, 640, tiles.size):
-        for y in range(0, 480, tiles.size):
-            window.blit(tiles.grass, (x + Globals.camera_x, y + Globals.camera_y))
+    window.blit(terrain, (Globals.camera_x, Globals.camera_y))
 
     
     display_fps()
