@@ -32,7 +32,6 @@ def main():
     # terrain = world_map.load_map("maps/map.map", tiles)
     window_width, window_height = 800, 600
     camera_x, camera_y = 0, 0
-    camera_move = 0
     window = create_window(window_width, window_height)
     
     #RENDER GRAPHICS
@@ -42,19 +41,19 @@ def main():
             if event.type == pygame.QUIT:
                 running = False
 
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_w:
-                    camera_y += 10
-                elif event.key == pygame.K_s:
-                    camera_y -= 10
-                elif event.key == pygame.K_a:
-                    camera_x += 10
-                elif event.key == pygame.K_d:
-                    camera_x -= 10
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_w:
+                camera_y += 10
+            elif event.key == pygame.K_s:
+                camera_y -= 10
+            elif event.key == pygame.K_a:
+                camera_x += 10
+            elif event.key == pygame.K_d:
+                camera_x -= 10
 
-            # elif event.type == pygame.KEYUP:
-            #     camera_x = camera_x
-            #     camera_y = camera_y
+        elif event.type == pygame.KEYUP:
+            camera_x = camera_x
+            camera_y = camera_y
         
         new_sky = make_sky(window_width, window_height, sky, window)
         new_terrain = make_earth(window, earth, camera_x, camera_y)
