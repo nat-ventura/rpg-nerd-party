@@ -25,8 +25,8 @@ def display_fps(fps, fps_font, color, window):
     window.blit(fps_overlay, (0, 0))
 
 def create_sky(window_width, window_height, tiles, window):
-    for x in range(window_width, tiles.size):
-        for y in range(window_height, tiles.size):
+    for x in range(0, window_width, tiles.size):
+        for y in range(0, window_height, tiles.size):
             window.blit(tiles.sky, (x, y))
 
 # def create_terrain(window, terrain, camera_x, camera_y):
@@ -44,6 +44,7 @@ def main():
     fps_font = pygame.font.SysFont("fontname", 20)
     window_width, window_height = 800, 600
     camera_x, camera_y = 0, 0
+    camera_move = 0
     window = create_window(window_width, window_height)
     
     # terrain!!!! = ?! "source" -- a source surface
@@ -51,12 +52,14 @@ def main():
     #RENDER GRAPHICS
     running = True
     while running:
+        
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_w:
                     camera_y += 5
+                    print "hi"
                 elif event.key == pygame.K_s:
                     camera_y -= 5
                 elif event.key == pygame.K_a:
@@ -68,10 +71,14 @@ def main():
         
         current_sec, current_frame = count_fps(current_sec, current_frame, fps)
         fps_display = display_fps(str(fps), fps_font, color, window)
-
+        print "are you running"
         sky = create_sky(window_width, window_height, tiles, window)
+        # for x in range(0, window_width, tiles.size):
+        #     for y in range(0, window_height, tiles.size):
+        #         print "hello"
+        #         window.blit(tiles.sky, (x, y))
 
-        pygame.display.update()
+        pygame.display.flip()
         # terrain = create_terrain()
 
     pygame.quit()
