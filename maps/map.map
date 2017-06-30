@@ -6,3 +6,10 @@
 0,2: 2-
 1,1: 3-
 10,10
+
+## pickle dump and pickle load will make this easier
+## save data structures used for drawing---
+## save textures and x, y coords -- coords of new terrain need to be saved
+# dictionary with x, y coords and textures-- looking for "mouse events"
+# data for where to draw new textures on top of blue grass-- capture which tiles-- needs to be stored in map file
+# could use 2d array... tiles would be xy coords in a 2d array
