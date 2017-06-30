@@ -17,3 +17,11 @@ class Texture(object):
         surface = pygame.Surface((size, size), pygame.HWSURFACE|pygame.SRCALPHA)
         surface.blit(bitmap, (0, 0))
         return surface
+
+class Earth(Texture):
+    def __init__(self, png_string, size = 32):
+        self.size = size
+        self.png_string = png_string
+        self.width = 640
+        self.height = 480
+        self.instance = Texture.load_texture(self, "graphics/" + self.png_string + ".png", self.size)
