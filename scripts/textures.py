@@ -12,6 +12,7 @@ class Tiles(object):
         self.grass = self.load_texture("graphics/grass.png", self.size)
         self.stone = self.load_texture("graphics/stone.png", self.size)
         self.water = self.load_texture("graphics/water.png", self.size)
+        self.sky = self.load_texture("graphics/sky.png", self.size)
 
     def load_texture(self, file, size):
         bitmap = pygame.image.load(file)
