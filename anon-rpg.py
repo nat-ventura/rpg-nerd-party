@@ -24,7 +24,7 @@ def display_fps(fps, fps_font, color, window):
     fps_overlay = fps_font.render(fps, True, color("goldenrod"))
     window.blit(fps_overlay, (0, 0))
 
-def create_sky(window_width, window_height, sky, window, camera_x, camera_y):
+def create_sky(window_width, window_height, sky, window):
     for x in range(0, window_width, sky.size):
         for y in range(0, window_height, sky.size):
             window.blit(sky.instance, (x, y))
@@ -42,7 +42,6 @@ def main():
     print sky
     # world_map = Map()
     # terrain = world_map.load_map("maps/map.map", tiles)
-    fps_font = pygame.font.SysFont("fontname", 20)
     window_width, window_height = 800, 600
     camera_x, camera_y = 0, 0
     camera_move = 0
