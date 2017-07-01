@@ -11,7 +11,7 @@ class Window(object):
         self.height = height
     
     def create(self, title):
-        pygame.display.set_caption(self, title)
+        pygame.display.set_caption(title)
         window = pygame.display.set_mode((self.width, self.height), pygame.HWSURFACE|pygame.DOUBLEBUF)
         return window
 

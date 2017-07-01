@@ -33,8 +33,8 @@ def main():
     # window_width, window_height = 800, 600
     camera_x, camera_y = 0, 0
     big_window = Window()
-    window = big_Window.create("RPG")
-    
+    window = big_window.create("RPG")
+
     #RENDER GRAPHICS
     running = True
     while running:
@@ -56,7 +56,7 @@ def main():
             camera_x = camera_x
             camera_y = camera_y
         
-        new_sky = make_sky(window.width, window.height, sky, window)
+        new_sky = make_sky(big_window.width, big_window.height, sky, window)
         new_terrain = make_earth(window, earth, camera_x, camera_y)
 
         new_count = fps.count()
