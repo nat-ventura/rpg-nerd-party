@@ -5,11 +5,13 @@ I'm following along with this pygame rpg tutorial
 by someone called 'Meloonatic Melons' on Youtube.
 -- https://www.youtube.com/watch?v=C-z9nUttMcI
 
-I'm trying to clean up a lot of the code and global variables
-along the way, but it's pretty slow-going.
+My files deviate a lot from the tutorial because I'm trying
+not to use global variables and practice using classes, so
+it's a little slow-going.
 
-I haven't even gotten to making a little protagonist character yet,
-but my terrain builder map_maker.py is pretty cool when it works.
+I haven't gotten to making a little protagonist character yet,
+but the terrain builder map_maker.py is pretty cool when I
+can get it to work.
 
 I'm having issues accessing the tuples in my two-dimensional lists
 of terrain coordinates though, which means my terrain isn't "refreshing"
