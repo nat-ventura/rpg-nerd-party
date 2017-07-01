@@ -15,17 +15,26 @@ class Window(object):
         pygame.display.set_caption(title)
         window = pygame.display.set_mode((self.width, self.height), pygame.HWSURFACE|pygame.DOUBLEBUF)
         return window
-
+        
 class Map(object):
     def __init__(self):
-        self.prev_tiles = [[0,(0,0)],[0,(0,0)]]
+        self.prev_tiles = [[]]
         self.new_tiles = [[]]
         self.width = 400
         self.height = 400
         self.size = 32
 
-    def __getitem__(self, key):
-        return self.prev_tiles[key]
+    def load_map(self, file, texture):
+        saved_map = open(file, 'r')
+        self.prev_tiles = saved_map.read()
+
+        # this should create world map dimensions
+        for i in range(len(self.prev_tiles):
+            world_map[i][1] = world_map[i][1] * texture.size
+            # world_map[i][1] = world_map[1] * texture.size
+
+    # def __getitem__(self, key):
+    #     return self.prev_tiles[key]
 
 class Texture(object):
     def __init__(self, png_string, size = 32):
