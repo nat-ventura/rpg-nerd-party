@@ -4,7 +4,7 @@ import pygame, sys, math
 from scripts.textures import *
 
 def export_map(file):
-    map_data = ""
+    map_data = []
 
     # get map dimensions
     max_x = 0
@@ -60,7 +60,6 @@ brush = 1
 for x in range(0, map_height, tiles.size):
     for y in range(0, map_height, tiles.size):
         tile_data.append([x, y, "1"])
-
 
 running = True
 

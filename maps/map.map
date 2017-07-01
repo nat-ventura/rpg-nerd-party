@@ -13,3 +13,6 @@
 # dictionary with x, y coords and textures-- looking for "mouse events"
 # data for where to draw new textures on top of blue grass-- capture which tiles-- needs to be stored in map file
 # could use 2d array... tiles would be xy coords in a 2d array
+
+# make an fps class that takes a window object and gives you the updated fps
+# make a textures class
