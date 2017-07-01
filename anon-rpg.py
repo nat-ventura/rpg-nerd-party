@@ -12,10 +12,10 @@ from scripts.fps_tracker import *
 #         for y in range(0, height, sky.size):
 #             window.blit(sky.instance, (x, y))
 
-def make_earth(window, earth, camera_x, camera_y):
-    for x in range(0, earth.width, earth.size):
-        for y in range(0, earth.height, earth.size):
-            window.blit(earth.instance, (x + camera_x, y + camera_y))
+# def make_earth(window, earth, camera_x, camera_y):
+#     for x in range(0, earth.width, earth.size):
+#         for y in range(0, earth.height, earth.size):
+#             window.blit(earth.instance, (x + camera_x, y + camera_y))
 
 def main():
     pygame.init()

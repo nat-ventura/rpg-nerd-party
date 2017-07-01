@@ -15,12 +15,12 @@ def main():
     camera_x, camera_y = 0, 0
     big_window = Window(1280, 720)
     window = big_window.create("Map Maker")
-    sky = Sky("sky")
-    earth = Earth("grass")
+    sky = Sky()
+    earth = Earth()
     fps = FPS_Tracker()
-    world_map = Map(earth)
+    world_map = Map()
     selector = make_selector(earth)
-    brush = "earth"
+    texture = Texture("sky")
 
     running = True
     while running:
@@ -28,6 +28,10 @@ def main():
             if event.type == pygame.QUIT:
                 running = False
         
+        # draw default sky and earth
+        new_sky = sky.make(big_window, window)        
+        new_earth = earth.make(window, camera_x, camera_y, world_map)
+
         # camera movement
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_w:
@@ -40,14 +44,14 @@ def main():
                 camera_x -= 10
         
             # brushes
-            if event.key == pygame.K_r:
-                brush = "remove"
+            if event.key == pygame.K_y:
+                texture.png_string = "sky"
             if event.key == pygame.K_u:
-                brush = "earth"
+                texture.png_string = "earth"
             if event.key == pygame.K_i:
-                brush = "water"
+                texture.png_string = "water"
             if event.key == pygame.K_o:
-                brush = "stone"
+                texture.png_string = "stone"
 
         elif event.type == pygame.KEYUP:
             camera_x = camera_x
@@ -61,45 +65,24 @@ def main():
 
         # selector painting
         if event.type == pygame.MOUSEBUTTONDOWN:
-            current = [mouse_x - camera_x, mouse_y - camera_y, brush]
-
-            found = False
-            while not found:
-                for tile in world_map.tiles:
-                    if tile[0] == current[0] and tile[1] == current[1]:
-                        found = True
-                    if not found:
-                        if brush != "remove":
-                            world_map.tiles.append(tile)
-                else:
-                    if brush == "remove":
-                        for tile in world_map.tiles:
-                            if tile[0] == current[0] and tile[1] == current[1]:
-                                world_map.tiles.remove(tile)
-                                print "tile removed"
+            current = [texture.instance, (mouse_x - camera_x, mouse_y - camera_y)]
+            done = False
+            while not done:
+                for i in range(len(world_map.prev_tiles)):
+                    # if it's in the same location and of the same type
+                    if current != world_map.prev_tiles[i]:
+                        world_map.new_tiles.append(current)
+                        print "tile removed"
                     else:
-                        print("a tile is already here...")
+                        world_map.new_tiles.append(world_map.prev_tiles[i])
+                        print "that's the same type of tile"
+                    world_map.prev_tiles = world_map.new_tiles
+                    done = True
 
-
-            # for tile in world_map.tiles:
-            #     # if it's the same location
-            #     if tile[0] == current[0] and tile[1] == current[1]:
-            #         if brush == "remove":
-            #             world_map.tiles.remove(tile)
-            #             print "tile removed"
-                        
-            #         else:
-            #             world_map.tiles.append(current)
-            #             print "tile added"
-            #     else:
-            #         print "A tile is already here.."
-            
-        # draw default sky
-        new_sky = sky.make_sky(big_window, window)        
-
-        #draw map
-        for tile in world_map.tiles:
-            window.blit(earth.instance, (tile[0] + camera_x, tile[1] + camera_y))
+        # draw map
+        for x in range(0, world_map.width, world_map.size):
+            for y in range(0, world_map.height, world_map.size):
+                window.blit(texture.instance, (x + camera_x, y + camera_y))
 
         # draw highlighter
         window.blit(selector, (mouse_x, mouse_y))
