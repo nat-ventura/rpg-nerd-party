@@ -4,6 +4,7 @@
 
 import pygame, sys, math, pickle
 from scripts.textures import *
+from scripts.fps_tracker import *
 
 def make_selector(earth):
     selector = pygame.Surface((earth.size, earth.size), pygame.HWSURFACE|pygame.SRCALPHA)
@@ -11,10 +12,15 @@ def make_selector(earth):
     return selector
 
 def main():
+    camera_x, camera_y = 0, 0
     big_window = Window(1280, 720)
     window = big_window.create("Map Maker")
+    sky = Sky("sky")
     earth = Earth("grass")
+    fps = FPS_Tracker()
     world_map = Map()
+    selector = make_selector(earth)
+    brush = "earth"
 
     running = True
     while running:
@@ -32,16 +38,20 @@ def main():
                 camera_x += 10
             elif event.key == pygame.K_d:
                 camera_x -= 10
+        
+            # brushes
+            if event.key == pygame.K_r:
+                brush = "remove"
+            if event.key == pygame.K_u:
+                brush = "earth"
+            if event.key == pygame.K_i:
+                brush = "water"
+            if event.key == pygame.K_o:
+                brush = "stone"
 
         elif event.type == pygame.KEYUP:
             camera_x = camera_x
             camera_y = camera_y
-
-        # brushes
-        if event.key == pygame.K_b:
-            brush = "r"
-        if event.key == pygame.K_t:
-            brush = raw_input("brush tag: ")
 
         # selector boundaries
         if event.type == pygame.MOUSEMOTION:
@@ -57,7 +67,7 @@ def main():
                 for tile in world_map.tiles:
                     # if it's the same location
                     if tile[0] == current[0] and tile[1] == current[1]:
-                        if brush == "r":
+                        if brush == "remove":
                             world_map.tiles.remove(tile)
                             print "tile removed"
                             done = True
@@ -65,8 +75,8 @@ def main():
                             tiles.append(current)
                             done = True
         
-        # draw default sky.. maybe make this a method later too
-        default_sky = make_sky(big_window.width, big_window.height, sky, window)        
+        # draw default sky
+        new_sky = sky.make_sky(big_window, window)        
 
         #draw map
         for tile in world_map.tiles:
@@ -86,9 +96,5 @@ def main():
     # i'm pretty sure these never get called lol
     # pygame.quit()
     # sys.exit
-
-main()
-
-
 
 main()

@@ -45,3 +45,14 @@ class Earth(Texture):
         self.width = 640
         self.height = 480
         self.instance = Texture.load_texture(self, "graphics/" + self.png_string + ".png", self.size)
+
+class Sky(Texture):
+    def __init__(self, png_string, size = 300):
+        self.size = size
+        self.png_string = png_string
+        self.instance = Texture.load_texture(self, "graphics/" + self.png_string + ".png", self.size)
+
+    def make_sky(self, big_window, window):
+        for x in range(0, big_window.width, self.size):
+            for y in range(0, big_window.height, self.size):
+                window.blit(self.instance, (x, y))

@@ -7,10 +7,10 @@ from scripts.textures import *
 from scripts.map_engine import *
 from scripts.fps_tracker import *
 
-def make_sky(width, height, sky, window):
-    for x in range(0, width, sky.size):
-        for y in range(0, height, sky.size):
-            window.blit(sky.instance, (x, y))
+# def make_sky(width, height, sky, window):
+#     for x in range(0, width, sky.size):
+#         for y in range(0, height, sky.size):
+#             window.blit(sky.instance, (x, y))
 
 def make_earth(window, earth, camera_x, camera_y):
     for x in range(0, earth.width, earth.size):
@@ -21,7 +21,7 @@ def main():
     pygame.init()
     color = pygame.Color
     fps = FPS_Tracker()
-    sky = Texture("sky")
+    sky = Sky("sky")
     earth = Earth("grass")
     # world_map = Map()
     # terrain = world_map.load_map("maps/map.map", tiles)
@@ -50,7 +50,7 @@ def main():
             camera_x = camera_x
             camera_y = camera_y
         
-        new_sky = make_sky(big_window.width, big_window.height, sky, window)
+        new_sky = sky.make_sky(big_window, window)
         new_terrain = make_earth(window, earth, camera_x, camera_y)
 
         new_count = fps.count()
