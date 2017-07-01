@@ -18,7 +18,7 @@ def main():
     sky = Sky("sky")
     earth = Earth("grass")
     fps = FPS_Tracker()
-    world_map = Map()
+    world_map = Map(earth)
     selector = make_selector(earth)
     brush = "earth"
 
@@ -62,28 +62,44 @@ def main():
         # selector painting
         if event.type == pygame.MOUSEBUTTONDOWN:
             current = [mouse_x - camera_x, mouse_y - camera_y, brush]
-            done = False
-            while not done:
+
+            found = False
+            while not found:
                 for tile in world_map.tiles:
-                    # if it's the same location
                     if tile[0] == current[0] and tile[1] == current[1]:
-                        if brush == "remove":
-                            world_map.tiles.remove(tile)
-                            print "tile removed"
-                            done = True
-                        else:
-                            tiles.append(current)
-                            done = True
-        
+                        found = True
+                    if not found:
+                        if brush != "remove":
+                            world_map.tiles.append(tile)
+                else:
+                    if brush == "remove":
+                        for tile in world_map.tiles:
+                            if tile[0] == current[0] and tile[1] == current[1]:
+                                world_map.tiles.remove(tile)
+                                print "tile removed"
+                    else:
+                        print("a tile is already here...")
+
+
+            # for tile in world_map.tiles:
+            #     # if it's the same location
+            #     if tile[0] == current[0] and tile[1] == current[1]:
+            #         if brush == "remove":
+            #             world_map.tiles.remove(tile)
+            #             print "tile removed"
+                        
+            #         else:
+            #             world_map.tiles.append(current)
+            #             print "tile added"
+            #     else:
+            #         print "A tile is already here.."
+            
         # draw default sky
         new_sky = sky.make_sky(big_window, window)        
 
         #draw map
         for tile in world_map.tiles:
-            try:
-                window.blit(tile[2], tile[0] + camera_x, tile[1] + camera_y)
-            except:
-                pass
+            window.blit(earth.instance, (tile[0] + camera_x, tile[1] + camera_y))
 
         # draw highlighter
         window.blit(selector, (mouse_x, mouse_y))

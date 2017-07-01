@@ -16,8 +16,8 @@ class Window(object):
         return window
 
 class Map(object):
-    def __init__(self):
-        self.tiles = []
+    def __init__(self, earth):
+        self.tiles = [[0, 0, 0]]
 
     def default(earth):
         self.width, self.height = 100 * earth.size
@@ -39,7 +39,7 @@ class Texture(object):
         return surface
 
 class Earth(Texture):
-    def __init__(self, png_string, size = 100):
+    def __init__(self, png_string, size = 32):
         self.size = size
         self.png_string = png_string
         self.width = 640
