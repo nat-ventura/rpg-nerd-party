@@ -26,4 +26,6 @@ Like fed my list in and got the outputs out correctly?
 Stack Overflow people's explanations of list comprehension
 were also a bit confusing, but hopefully will make sense soon.
 
+Also I keep forgetting to make git branches lol.
+
 xNV
