@@ -7,11 +7,6 @@ from scripts.textures import *
 from scripts.map_engine import *
 from scripts.fps_tracker import *
 
-# def create_window(window_width, window_height):
-#     pygame.display.set_caption("RPG")
-#     window = pygame.display.set_mode((window_width, window_height), pygame.HWSURFACE|pygame.DOUBLEBUF)
-#     return window
-
 def make_sky(width, height, sky, window):
     for x in range(0, width, sky.size):
         for y in range(0, height, sky.size):
@@ -30,7 +25,6 @@ def main():
     earth = Earth("grass")
     # world_map = Map()
     # terrain = world_map.load_map("maps/map.map", tiles)
-    # window_width, window_height = 800, 600
     camera_x, camera_y = 0, 0
     big_window = Window()
     window = big_window.create("RPG")
