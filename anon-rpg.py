@@ -7,14 +7,14 @@ from scripts.textures import *
 from scripts.map_engine import *
 from scripts.fps_tracker import *
 
-def create_window(window_width, window_height):
-    pygame.display.set_caption("RPG")
-    window = pygame.display.set_mode((window_width, window_height), pygame.HWSURFACE|pygame.DOUBLEBUF)
-    return window
+# def create_window(window_width, window_height):
+#     pygame.display.set_caption("RPG")
+#     window = pygame.display.set_mode((window_width, window_height), pygame.HWSURFACE|pygame.DOUBLEBUF)
+#     return window
 
-def make_sky(window_width, window_height, sky, window):
-    for x in range(0, window_width, sky.size):
-        for y in range(0, window_height, sky.size):
+def make_sky(width, height, sky, window):
+    for x in range(0, width, sky.size):
+        for y in range(0, height, sky.size):
             window.blit(sky.instance, (x, y))
 
 def make_earth(window, earth, camera_x, camera_y):
@@ -30,9 +30,10 @@ def main():
     earth = Earth("grass")
     # world_map = Map()
     # terrain = world_map.load_map("maps/map.map", tiles)
-    window_width, window_height = 800, 600
+    # window_width, window_height = 800, 600
     camera_x, camera_y = 0, 0
-    window = create_window(window_width, window_height)
+    big_window = Window()
+    window = big_Window.create("RPG")
     
     #RENDER GRAPHICS
     running = True
@@ -55,7 +56,7 @@ def main():
             camera_x = camera_x
             camera_y = camera_y
         
-        new_sky = make_sky(window_width, window_height, sky, window)
+        new_sky = make_sky(window.width, window.height, sky, window)
         new_terrain = make_earth(window, earth, camera_x, camera_y)
 
         new_count = fps.count()

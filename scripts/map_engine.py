@@ -2,20 +2,19 @@
 # nat
 # map engine
 
-
 import pygame
 from scripts.textures import *
 
 class Map(object):
     def __init__(self):
-        pass
+        self.tiles = []
 
     def add_tile(self, tile, pos, add):
         add.blit(tile, pos[0] * tile.size, pos[1] * tile.size)
 
     def load_map(self, file, tiles):
         map_file = open(file, 'r')
-        map_data = map_file.read()
+        self.map_data = map_file.read()
 
         # read tile data
         map_data = map_data.split("-") # split into list of tiles
@@ -25,15 +24,13 @@ class Map(object):
         map_size[0] = int(map_size[0]) * tiles.size
         map_size[1] = int(map_size[1]) * tiles.size
 
-        tiles = []
-
         for tiles in range(len(map_data)):
             map_data[tile] = map_data[tile].replace("\n", "")
             tiles.append(map_data[tile].split(":")) # splits position from texture
 
         for tile in tiles:
             tile[0] = tile[0].split(",") # split pos into list
-            post = tile[0]
+            pos = tile[0]
             for p in pos:
                 pos[pos.index(p)] = int(p)
             

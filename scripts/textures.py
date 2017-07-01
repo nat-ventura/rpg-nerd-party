@@ -5,8 +5,18 @@
 import pygame
 pygame.init()
 
+class Window(object):
+    def __init__(self, width = 800, height = 600):
+        self.width = width
+        self.height = height
+    
+    def create(self, title):
+        pygame.display.set_caption(self, title)
+        window = pygame.display.set_mode((self.width, self.height), pygame.HWSURFACE|pygame.DOUBLEBUF)
+        return window
+
 class Texture(object):
-    def __init__(self, png_string, size = 32):
+    def __init__(self, png_string, size = 300):
         self.size = size
         self.png_string = png_string
         self.instance = self.load_texture("graphics/" + self.png_string + ".png", self.size)
@@ -19,7 +29,7 @@ class Texture(object):
         return surface
 
 class Earth(Texture):
-    def __init__(self, png_string, size = 32):
+    def __init__(self, png_string, size = 100):
         self.size = size
         self.png_string = png_string
         self.width = 640
