@@ -15,6 +15,16 @@ class Window(object):
         window = pygame.display.set_mode((self.width, self.height), pygame.HWSURFACE|pygame.DOUBLEBUF)
         return window
 
+class Map(object):
+    def __init__(self):
+        self.tiles = []
+
+    def default(earth):
+        self.width, self.height = 100 * earth.size
+        for x in range(0, self.width, earth.size):
+            for y in range(0, self.height, earth.size):
+                self.tiles.append([x, y, "earth"])
+
 class Texture(object):
     def __init__(self, png_string, size = 300):
         self.size = size
