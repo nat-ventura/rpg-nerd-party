@@ -17,10 +17,10 @@ def main():
     window = big_window.create("Map Maker")
     sky = Sky()
     earth = Earth()
-    fps = FPS_Tracker()
     world_map = Map()
     selector = make_selector(earth)
-    texture = Texture("sky")
+    fps = FPS_Tracker()
+    brush = "grass"
 
     running = True
     while running:
@@ -34,6 +34,7 @@ def main():
         new_earth = earth.make(window, camera_x, camera_y, world_map)
         # looks like you're trying to add the info of each `tile`
         # to a 2d list stored in world_map.prev_tiles
+        # looks like: (self.instance, (camera_x, camera_y))
 
         # camera movement
         if event.type == pygame.KEYDOWN:
@@ -52,12 +53,15 @@ def main():
             # I'm taking this out because I think `sky` should be like absence
             # of `earth` or other terrain
             if event.key == pygame.K_u:
-                texture.png_string = "earth"
+                brush = "earth"
             if event.key == pygame.K_i:
-                texture.png_string = "water"
+                brush = "water"
             if event.key == pygame.K_o:
-                texture.png_string = "stone"
+                brush = "stone"
+            if event.key == pygame.K_r:
+                brush = "remove"
 
+        # this keeps camera from continuing to move
         elif event.type == pygame.KEYUP:
             camera_x = camera_x
             camera_y = camera_y
@@ -65,44 +69,45 @@ def main():
         # selector boundaries
         if event.type == pygame.MOUSEMOTION:
             mouse_pos = pygame.mouse.get_pos()
-            mouse_x = (mouse_pos[0] // earth.size) * earth.size
-            mouse_y = (mouse_pos[1] // earth.size) * earth.size
+            mouse_x = (mouse_pos[0] // 64) * 64 # hard-coding the tile size here eek
+            mouse_y = (mouse_pos[1] // 64) * 64
 
         # selector painting
         if event.type == pygame.MOUSEBUTTONDOWN:
-            current = [texture.instance, (mouse_x - camera_x, mouse_y - camera_y)]
             done = False
             while not done:
 
-                # lifted from map_engine..
-                # i'm calling `tile` coord_pack tho
-                # because it refers to both coordinates and the texture
-                for coord_pack in world_map.prev_tiles:
-                    position = coord_pack[1] # as long as this is a tuple!!!
-                    for item in position:
-                        position[position.index(item)] = item
-                    
-                    tiles[tiles.index(tile)] = (position, tile[1]) # save to tile list
+                if brush == "remove":
+                    for tile in world_map.tiles:
+                        if (mouse_x - camera_x, mouse_y - camera_y) == tile[1]:
+                            try:
+                                world_map.tiles.remove(tile)
+                                done = True
+                                for tile in world_map.tiles:
+                                    window.blit(earth.instance, (x + camera_x, y + camera_y))
+                            except:
+                                print "no tile there!"                
+                
+                elif brush in ["grass", "water", "stone"]:
+                    earth.png_string = brush
+                    for tile in world_map.tiles:
+                        # if it's in the same location and of the same type
+                        if brush == tile[0] and (mouse_x - camera_x, mouse_y - camera_y) == tile[1]:
+                            print "that's the same type of tile"
+                            done = True
+                        elif brush != tile[0] and (mouse_x - camera_x, mouse_y - camera_y) == tile[1]:
+                            world_map.tiles.remove(tile)
+                            world_map.tiles.append([brush, tile[1]])
+                            window.blit(earth.instance, (x + camera_x, y + camera_y))
+                            print "tile replaced"
+                            done = True
 
-
-                for i in range(len(world_map.prev_tiles)):
-                    # if it's in the same location and of the same type
-                    if current != world_map.prev_tiles[i]:
-                        world_map.new_tiles.append(current)
-                        print "tile removed"
-                    else:
-                        world_map.new_tiles.append(world_map.prev_tiles[i])
-                        print "that's the same type of tile"
-                    world_map.prev_tiles = world_map.new_tiles
-                    done = True
-
-        # draw map
-        for x in range(0, world_map.width, world_map.size):
-            for y in range(0, world_map.height, world_map.size):
-                window.blit(texture.instance, (x + camera_x, y + camera_y))
+        # # draw map
+        # for x in range(0, world_map.width, world_map.size):
+        #     for y in range(0, world_map.height, world_map.size):
+        #         window.blit(texture.instance, (x + camera_x, y + camera_y))
 
         # draw highlighter
-        # this works great-- nice
         window.blit(selector, (mouse_x, mouse_y))
 
         new_count = fps.count()

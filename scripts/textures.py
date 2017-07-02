@@ -18,23 +18,22 @@ class Window(object):
         
 class Map(object):
     def __init__(self):
-        self.prev_tiles = [[]]
-        self.new_tiles = [[]]
+        self.tiles = [[0,0,0]] # remember that these are going to be stored as (self.instance, (camera_x, camera_y))
         self.width = 400
         self.height = 400
         self.size = 32
 
     def load_map(self, file, texture):
         saved_map = open(file, 'r')
-        self.prev_tiles = saved_map.read()
+        self.tiles = saved_map.read()
 
         # this should create world map dimensions
-        for i in range(len(self.prev_tiles):
-            for j in range(len(self.prev_tiles[i])):
-                world_map[i][j] = world_map[i][j] * texture.size
+        # for i in range(len(self.tiles):
+        #     for j in range(len(self.tiles[i])):
+        #         world_map[i][j] = world_map[i][j] * texture.size
 
     # def __getitem__(self, key):
-    #     return self.prev_tiles[key]
+    #     return self.tiles[key]
 
 class Texture(object):
     def __init__(self, png_string, size = 32):
@@ -50,18 +49,19 @@ class Texture(object):
         return surface
 
 class Earth(Texture):
-    def __init__(self, size = 32):
-        self.size = size
+    def __init__(self):
+        self.size = 60
         self.width = 640
         self.height = 480
-        self.instance = Texture.load_texture(self, "graphics/grass.png", self.size)
+        self.png_string = "grass"
+        self.instance = Texture.load_texture(self, "graphics/" + self.png_string + ".png", self.size)
     
     def make(self, window, camera_x, camera_y, world_map):
         for x in range(0, self.width, self.size):
             for y in range(0, self.height, self.size):
                 window.blit(self.instance, (x + camera_x, y + camera_y))
-                tile = self.instance, (x + camera_x, y + camera_y)
-                world_map.prev_tiles.append(tile)
+                tile = self.png_string, (x + camera_x, y + camera_y)
+                world_map.tiles.append(tile)
 
 class Sky(Texture):
     def __init__(self, size = 300):
