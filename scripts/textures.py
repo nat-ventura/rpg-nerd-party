@@ -30,8 +30,8 @@ class Map(object):
 
         # this should create world map dimensions
         for i in range(len(self.prev_tiles):
-            world_map[i][1] = world_map[i][1] * texture.size
-            # world_map[i][1] = world_map[1] * texture.size
+            for j in range(len(self.prev_tiles[i])):
+                world_map[i][j] = world_map[i][j] * texture.size
 
     # def __getitem__(self, key):
     #     return self.prev_tiles[key]
