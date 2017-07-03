@@ -29,8 +29,11 @@ def main():
                 running = False
         
         # draw default sky and earth
+        # self.width and self.height for earth right now are hard coded
         new_sky = sky.make(big_window, window)        
         new_earth = earth.make(window, camera_x, camera_y, world_map)
+        # looks like you're trying to add the info of each `tile`
+        # to a 2d list stored in world_map.prev_tiles
 
         # camera movement
         if event.type == pygame.KEYDOWN:
@@ -44,8 +47,10 @@ def main():
                 camera_x -= 10
         
             # brushes
-            if event.key == pygame.K_y:
-                texture.png_string = "sky"
+            # if event.key == pygame.K_y:
+            #     texture.png_string = "sky"
+            # I'm taking this out because I think `sky` should be like absence
+            # of `earth` or other terrain
             if event.key == pygame.K_u:
                 texture.png_string = "earth"
             if event.key == pygame.K_i:
@@ -68,6 +73,18 @@ def main():
             current = [texture.instance, (mouse_x - camera_x, mouse_y - camera_y)]
             done = False
             while not done:
+
+                # lifted from map_engine..
+                # i'm calling `tile` coord_pack tho
+                # because it refers to both coordinates and the texture
+                for coord_pack in world_map.prev_tiles:
+                    position = coord_pack[1] # as long as this is a tuple!!!
+                    for item in position:
+                        position[position.index(item)] = item
+                    
+                    tiles[tiles.index(tile)] = (position, tile[1]) # save to tile list
+
+
                 for i in range(len(world_map.prev_tiles)):
                     # if it's in the same location and of the same type
                     if current != world_map.prev_tiles[i]:
@@ -85,6 +102,7 @@ def main():
                 window.blit(texture.instance, (x + camera_x, y + camera_y))
 
         # draw highlighter
+        # this works great-- nice
         window.blit(selector, (mouse_x, mouse_y))
 
         new_count = fps.count()
