@@ -101,6 +101,7 @@ def main():
                             window.blit(earth.instance, (x + camera_x, y + camera_y))
                             print "tile replaced"
                             done = True
+                            # something that i'm appending or blitting isn't working out...
 
         # # draw map
         # for x in range(0, world_map.width, world_map.size):
