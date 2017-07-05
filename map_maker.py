@@ -3,7 +3,7 @@
 # map maker
 
 import pygame, sys, math, pickle
-from scripts.textures import *
+# from scripts.textures import *
 from scripts.fps_tracker import *
 
 class Window(object):
@@ -16,24 +16,24 @@ class Window(object):
         window = pygame.display.set_mode((self.width, self.height), pygame.HWSURFACE|pygame.DOUBLEBUF)
         return window
         
-class Map(object):
-    def __init__(self):
-        self.tiles = [[0,(0,0)]] # remember that these are going to be stored as (self.instance, (camera_x, camera_y))
-        self.width = 400
-        self.height = 400
-        self.size = 32
+# class Map(object):
+#     def __init__(self):
+#         self.tiles = [[0,(0,0)]] # remember that these are going to be stored as (self.instance, (camera_x, camera_y))
+#         self.width = 400
+#         self.height = 400
+#         self.size = 32
 
-    def load_map(self, file, texture):
-        saved_map = open(file, 'r')
-        self.tiles = saved_map.read()
+#     def load_map(self, file, texture):
+#         saved_map = open(file, 'r')
+#         self.tiles = saved_map.read()
 
-        # this should create world map dimensions
-        # for i in range(len(self.tiles):
-        #     for j in range(len(self.tiles[i])):
-        #         world_map[i][j] = world_map[i][j] * texture.size
+#         # this should create world map dimensions
+#         # for i in range(len(self.tiles):
+#         #     for j in range(len(self.tiles[i])):
+#         #         world_map[i][j] = world_map[i][j] * texture.size
 
-    # def __getitem__(self, key):
-    #     return self.tiles[key]
+#     # def __getitem__(self, key):
+#     #     return self.tiles[key]
 
 class Texture(object):
     def __init__(self, png_string, size = 32):
@@ -53,15 +53,16 @@ class Earth(Texture):
         self.size = 32
         self.width = 640
         self.height = 480
+        self.tiles = []
         self.png_string = "grass"
         self.instance = Texture.load_texture(self, "graphics/" + self.png_string + ".png", self.size)
     
-    def make(self, window, camera_x, camera_y, world_map):
+    def make(self, window, camera_x, camera_y):
         for x in range(0, self.width, self.size):
             for y in range(0, self.height, self.size):
                 window.blit(self.instance, (x + camera_x, y + camera_y))
                 tile = self.png_string, (x + camera_x, y + camera_y)
-                world_map.tiles.append(tile)
+                self.tiles.append(tile)
 
 class Sky(Texture):
     def __init__(self, size = 300):
@@ -80,11 +81,11 @@ def make_selector(earth):
 
 def main():
     camera_x, camera_y = 0, 0
+    mouse_x, mouse_y = 0, 0
     big_window = Window(1280, 720)
     window = big_window.create("Map Maker")
     sky = Sky()
     earth = Earth()
-    world_map = Map()
     selector = make_selector(earth)
     fps = FPS_Tracker()
     brush = "stone"
@@ -98,7 +99,7 @@ def main():
         # draw default sky and earth
         # self.width and self.height for earth right now are hard coded
         new_sky = sky.make(big_window, window)        
-        new_earth = earth.make(window, camera_x, camera_y, world_map)
+        earth.make(window, camera_x, camera_y)
         # looks like you're trying to add the info of each `tile`
         # to a 2d list stored in world_map.prev_tiles
         # looks like: (self.instance, (camera_x, camera_y))
@@ -119,14 +120,15 @@ def main():
             #     texture.png_string = "sky"
             # I'm taking this out because I think `sky` should be like absence
             # of `earth` or other terrain
+            if event.key == pygame.K_r:
+                brush = "remove"
             if event.key == pygame.K_u:
                 brush = "grass"
             if event.key == pygame.K_i:
                 brush = "water"
             if event.key == pygame.K_o:
                 brush = "stone"
-            if event.key == pygame.K_r:
-                brush = "remove"
+            
 
         # this keeps camera from continuing to move
         elif event.type == pygame.KEYUP:
@@ -141,8 +143,8 @@ def main():
 
         # selector painting
         if event.type == pygame.MOUSEBUTTONDOWN:
-            done = False
-            while not done:
+            # done = False
+            # while not done:
                 # if brush == "remove":
                 #     for tile in world_map.tiles:
                 #         if (mouse_x - camera_x, mouse_y - camera_y) == tile[1]:
@@ -156,18 +158,18 @@ def main():
                 
                 if brush in ["grass", "water", "stone"]:
                     earth.png_string = brush
-                    done = True
-                    for tile in world_map.tiles:
+                    # done = True
+                    for tile in earth.tiles:
                         # if it's in the same location and of the same type
                         if brush != "stone": #tile[0] and (mouse_x - camera_x, mouse_y - camera_y) == tile[1]:
                             print "nooooooo" #"that's the same type of tile"
-                            done = True
+                            # done = True
                         elif brush == "stone": #!= tile[0] and (mouse_x - camera_x, mouse_y - camera_y) == tile[1]:
-                            world_map.tiles.remove(tile)
-                            world_map.tiles.append([brush, tile[1]])
+                            earth.tiles.remove(tile)
+                            earth.tiles.append([brush, tile[1]])
                             # window.blit(earth.instance, (mouse_x + camera_x, mouse_y + camera_y))
                             print "tile replaced"
-                            done = True
+                            # done = True
                 # #             # something that i'm appending or blitting isn't working out...
 
         # # draw map
