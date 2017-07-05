@@ -18,7 +18,7 @@ class Window(object):
         
 class Map(object):
     def __init__(self):
-        self.tiles = [[0,0,0]] # remember that these are going to be stored as (self.instance, (camera_x, camera_y))
+        self.tiles = [[0,(0,0)]] # remember that these are going to be stored as (self.instance, (camera_x, camera_y))
         self.width = 400
         self.height = 400
         self.size = 32
@@ -50,7 +50,7 @@ class Texture(object):
 
 class Earth(Texture):
     def __init__(self):
-        self.size = 60
+        self.size = 32
         self.width = 640
         self.height = 480
         self.png_string = "grass"

@@ -19,7 +19,7 @@ from scripts.textures import *
             world_map[1] = world_map[1] * world_map.size
 
         for tile in tiles:
-            position = tile[0]
+            position = tile[1]
             # oh shit i think this is how he made the tuple??
             for i in position:
                 position[position.index(i)] = i
