@@ -50,7 +50,7 @@ class Earth(Texture):
                 # could be the way i'm creating new tiles in game loop-- like not making enough new tiles before
                 # copying into old tiles
                 # print everythingggg
-                print "initialize tile number:", tile_count, tile
+        print "initialize tile number:", tile_count, tile
 
     def update(self, window, camera_x, camera_y):
         # set manual counter and increment inside the y loop
@@ -60,7 +60,7 @@ class Earth(Texture):
                 self.png_string = self.oldtiles[tile_count][0]
                 window.blit(self.instance, (x + camera_x, y + camera_y))
                 tile_count += 1
-                print "update tile number:", tile_count, tile
+        print "update tile number:", tile_count, tile
 
 class Sky(Texture):
     def __init__(self, size = 300):
@@ -138,7 +138,6 @@ def main():
 
         # selector painting
         if event.type == pygame.MOUSEBUTTONDOWN:
-            print "mouse is down!"
             # done = False
             # while not done:
                 # if brush == "remove":
