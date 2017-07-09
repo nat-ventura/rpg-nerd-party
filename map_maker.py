@@ -15,25 +15,6 @@ class Window(object):
         pygame.display.set_caption(title)
         window = pygame.display.set_mode((self.width, self.height), pygame.HWSURFACE|pygame.DOUBLEBUF)
         return window
-        
-# class Map(object):
-#     def __init__(self):
-#         self.tiles = [[0,(0,0)]] # remember that these are going to be stored as (self.instance, (camera_x, camera_y))
-#         self.width = 400
-#         self.height = 400
-#         self.size = 32
-
-#     def load_map(self, file, texture):
-#         saved_map = open(file, 'r')
-#         self.tiles = saved_map.read()
-
-#         # this should create world map dimensions
-#         # for i in range(len(self.tiles):
-#         #     for j in range(len(self.tiles[i])):
-#         #         world_map[i][j] = world_map[i][j] * texture.size
-
-#     # def __getitem__(self, key):
-#     #     return self.tiles[key]
 
 class Texture(object):
     def __init__(self, png_string, size = 32):
@@ -130,10 +111,6 @@ def main():
                 camera_x -= 10
         
             # brushes
-            # if event.key == pygame.K_y:
-            #     texture.png_string = "sky"
-            # I'm taking this out because I think `sky` should be like absence
-            # of `earth` or other terrain
             if event.key == pygame.K_r:
                 brush = "remove"
             if event.key == pygame.K_u:
