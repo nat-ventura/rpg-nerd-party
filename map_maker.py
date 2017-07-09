@@ -42,9 +42,11 @@ class Earth(Texture):
     def make(self, window, camera_x, camera_y):
         for x in range(0, self.width, self.size):
             for y in range(0, self.height, self.size):
+                tile_count = 0
                 window.blit(self.instance, (x + camera_x, y + camera_y))
                 tile = (self.png_string, (x + camera_x, y + camera_y))
-                self.oldtiles.append(tile) # set manual counter at top to find out length
+                self.oldtiles.append(tile)
+                tile_count += 0 # set manual counter at top to find out length
                 # could be the way i'm creating new tiles in game loop-- like not making enough new tiles before
                 # copying into old tiles
                 # print everythingggg
@@ -177,10 +179,6 @@ def main():
                     #     # done = True
             # #             # something that i'm appending or blitting isn't working out...
 
-        # # draw map
-        # for x in range(0, world_map.width, world_map.size):
-        #     for y in range(0, world_map.height, world_map.size):
-        #         window.blit(texture.instance, (x + camera_x, y + camera_y))
 
         earth.oldtiles = earth.newtiles[:] # makes a copy instead of pointing to the same thing
 
